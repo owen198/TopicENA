@@ -24,6 +24,19 @@ TopicENA/
 
 ## Installation
 
+Install the following packages in Ubuntu
+
+```bash
+sudo apt update
+sudo apt install -y \
+  build-essential pkg-config \
+  libcurl4-openssl-dev libssl-dev \
+  libxml2-dev \
+  libfontconfig1-dev libfreetype6-dev \
+  libharfbuzz-dev libfribidi-dev \
+  libpng-dev libjpeg-dev
+```
+
 Clone this repository and install TopicENA in editable mode:
 
 ```bash
@@ -149,23 +162,4 @@ For example:
 ```bash
 topicena
   --number_of_keywords 3
-```
-
-### Do NOT run as root
-
-This project must not be run as root. If you run the pipeline with sudo, `Chrome/Chromium` will fail to start and image export (PNG) will not work.
-
-### Required system dependencies (Ubuntu)
-
-Before installing R packages, make sure these system libraries are installed:
-
-```bash
-sudo apt update
-sudo apt install -y \
-  build-essential pkg-config \
-  libcurl4-openssl-dev libssl-dev \
-  libxml2-dev \
-  libfontconfig1-dev libfreetype6-dev \
-  libharfbuzz-dev libfribidi-dev \
-  libpng-dev libjpeg-dev
 ```
