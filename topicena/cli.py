@@ -102,6 +102,14 @@ def main():
         embeddings=None,  
     )
 
+    info = model.get_topic_info()
+    n_valid_topics = (info.Topic != -1).sum()
+
+    if n_valid_topics <= 2:
+        print(f"[TopicENA] Abort: only {n_valid_topics} valid topics found "
+                "(<= 2). Skip visualization and ENA. \n")
+        sys.exit(1)
+
 
 
 
@@ -132,7 +140,7 @@ def main():
 
     if topic_df.columns.duplicated().any():
         dup = topic_df.columns[topic_df.columns.duplicated()].tolist()
-        print(f"Duplicate keyword columns detected: {dup}\n"
+        print(f"[TopicENA] Duplicate keyword columns detected: {dup}\n"
                 "This usually indicates that the topic configuration is too fine-grained.\n")
         sys.exit(1)
 

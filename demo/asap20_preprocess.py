@@ -14,10 +14,10 @@ def main():
 
     asap_pd = pd.read_csv(path + "/ASAP2_train_sourcetexts.csv")
     
-    assignment = asap_pd["assignment"].unique()[0]
+    assignment = asap_pd["assignment"].unique()[3]
     asap_assignment_pd = asap_pd[asap_pd["assignment"] == assignment]
 
-    asap_assignment_pd = asap_pd
+    # asap_assignment_pd = asap_pd
     asap_assignment_pd['group'] = np.where(asap_assignment_pd['score'] <= 3, 'low', 'high')
 
     reflection_df = pd.DataFrame()
