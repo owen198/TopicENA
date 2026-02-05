@@ -97,69 +97,46 @@ This section summarizes the main command-line parameters used in TopicENA, along
 
 ### Core TopicENA Parameters
 
-| Parameter | Type | Default | Description |
-|---------|------|---------|-------------|
-| `--input` | string | **required** | Path to the input CSV file (e.g., `data/sample/sample_students.csv`) |
-| `--output` | string | `output` | Directory to store all BERTopic and rENA outputs |
-| `--topic_file` | string | `ena_input.csv` | File name used to record document–topic assignments as input to the ENA script |
-| `--prob_th` | float | `0.01` | Probability threshold for multi-topic assignment |
-| `--number_of_keywords` | int | `2` | Number of keywords used to represent each topic in ENA visualization |
-
----
-
-### UMAP Parameters (Topic Embedding)
-
-| Parameter | Type | Default | Description |
-|---------|------|---------|-------------|
-| `--n_neighbors` | int | `10` | UMAP parameter controlling local neighborhood size |
-| `--n_components` | int | `5` | Number of embedding dimensions produced by UMAP |
-| `--min_dist` | float | `0.0` | Minimum distance between embedded points |
-
----
-
-### HDBSCAN Parameters (Clustering)
-
-| Parameter | Type | Default | Description |
-|---------|------|---------|-------------|
-| `--min_cluster_size` | int | `20` | Minimum size of topic clusters |
-| `--min_samples` | int | `5` | Controls cluster robustness and noise sensitivity |
-
----
-
-### BERTopic Parameters
-
-| Parameter | Type | Default | Description |
-|---------|------|---------|-------------|
-| `--min_topic_size` | int | `5` | Minimum number of documents per topic |
-
----
-
-### rENA Parameters
-
-| Parameter | Type | Default | Description |
-|---------|------|---------|-------------|
-| `--window_size_back` | int | `20` | rENA `window.size.back` parameter controlling temporal co-occurrence |
-
+|Comp. | Parameter | Type | Default | Description |
+|---------|---------|------|---------|-------------|
+|Core TopicENA | `--input`        | string  | **required** | Path to the input CSV file (e.g., `data/sample/sample_students.csv`) |
+|         | `--output`            | string  | `output` | Directory to store all BERTopic and rENA outputs |
+|         | `--topic_file`        | string  | `ena_input.csv` | File name used to record document–topic assignments as input to the ENA script |
+|         | `--prob_th`           | float   | `0.01` | Probability threshold for multi-topic assignment |
+|         | `--text_col`          | string  | `reflection` | Name of the column containing text |
+|         | `--id_col`            | string  | `id` | Name of the column containing user/document id  |
+|         | `--group_col`         | string  | `group` | Name of the column containing group/condition labels |
+|         | `--number_of_keywords`| int     | `2` | "Number of keywords used to represent each topic in ENA visualization |
+|UMAP     | `--n_neighbors`       | int     | `10` | UMAP parameter controlling local neighborhood size |
+|         | `--n_components`      | int     | `5` | Number of embedding dimensions produced by UMAP |
+|         | `--min_dist`          | float   | `0.0` | Minimum distance between embedded points |
+|HDBSCAN  | `--min_cluster_size`  | int     | `20` | Minimum size of topic clusters |
+|         | `--min_samples`       | int     | `5` | Controls cluster robustness and noise sensitivity |
+|BERTopic | `--min_topic_size`    | int     | `5` | Minimum number of documents per topic |
+|rENA     | `--window_size_back`  | int     | `20` | rENA `window.size.back` parameter controlling temporal co-occurrence |
 
 ## Troubleshooting
+
+### Too few valid topics detected
+
+If you see the following message during execution:
+
+```
+[TopicENA] Abort: only N valid topics found 
+(<= 2). Skip visualization and ENA.
+```
+This means that **BERTopic detected too few topics (two or fewer)**, and TopicENA stops the topic detection process before running visualization and ENA. This usually happens when the topic clustering is **too coarse**, causing many documents to be merged into a small number of topics. Try adjusting the topic modeling parameters and rerun the analysis. In particular, you may try adjusting the parameter: `--n_neighbors`, `--min_cluster_size`, `--min_topic_size` and `--min_dist`.
+
+
 
 ### Duplicate keyword columns detected
 
 If you encounter the following warning during execution:
 ```
-Duplicate keyword columns detected
+[TopicENA] Abord: Duplicate keyword columns detected
 This usually indicates that the topic configuration is too fine-grained.
 ```
 
-This means that BERTopic has produced topics with overlapping or identical keywords, which can lead to duplicated semantic codes in the ENA input and cause issues in downstream analysis. This situation typically occurs when the topic modeling configuration is too fine-grained, resulting in multiple topics sharing very similar top keywords.
+This means that BERTopic has produced topics with overlapping or identical keywords, which can lead to duplicated semantic codes in the ENA input and cause issues in downstream analysis. This situation typically occurs when the topic modeling configuration is too fine-grained, resulting in multiple topics sharing very similar top keywords. One practical solution is to **increase the number of keywords used to represent each topic**. TopicENA uses a limited number of keywords to construct semantic codes by default. You may try adjusting the parameter: `--number_of_keywords`
 
-### Recommended solutions
 
-The simplest and most effective solution is to increase the `number_of_keywords` used to represent each topic, so that topic codes become more distinctive. By default, TopicENA uses the last `2` keywords of each topic to construct semantic codes. You may try increasing this value.
-
-For example:
-
-```bash
-topicena
-  --number_of_keywords 3
-```
