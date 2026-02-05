@@ -55,6 +55,28 @@ set.ena = ena(
 
 
 
+# high.lineweights = as.matrix(set.ena$line.weights$Condition$high)
+# low.lineweights = as.matrix(set.ena$line.weights$Condition$low)
+
+# high.mean = as.vector(colMeans(high.lineweights))
+# low.mean = as.vector(colMeans(low.lineweights))
+
+# ena.plot(set.ena, title = "High mean plot") |>
+#   ena.plot.network(network = high.mean, colors = c("red"))
+
+# ena.plot(set.ena, title = "Low mean plot") |>
+#   ena.plot.network(network = low.mean, colors = c("blue"))
+
+# subtracted.mean = high.mean - low.mean
+
+# p = ena.plotter(
+#   set.ena,
+#   title = "Subtracted: High (red) - Low (blue)"
+# ) |>
+#   ena.plot.network(
+#     network = subtracted.mean * 5,  # optional rescaling
+#     colors = c("red", "blue")
+#   )
 
 
 
@@ -62,8 +84,16 @@ set.ena = ena(
 
 # outfile  <- file.path(out_path, "ena_plot.png")
 
+# p = ena.plotter(set.ena,
+#                    mean = T,
+#                    points = T,
+#                    network = T,
+#                    print.plots = T,
+#                    groupVar = "Condition",
+#                    groups = c("high","low"),
+#                    subtractionMultiplier = 5)
+
 p = ena.plotter(set.ena,
-                   points = T,
                    mean = T,
                    network = T,
                    print.plots = T,
