@@ -99,7 +99,7 @@ This section summarizes the main command-line parameters used in TopicENA, along
 
 |Comp. | Parameter | Type | Default | Description |
 |---------|---------|------|---------|-------------|
-|Core TopicENA | `--input`        | string  | **required** | Path to the input CSV file (e.g., `data/sample/sample_students.csv`) |
+|TopicENA | `--input`             | string  | **required** | Path to the input CSV file (e.g., `data/sample/sample_students.csv`) |
 |         | `--output`            | string  | `output` | Directory to store all BERTopic and rENA outputs |
 |         | `--topic_file`        | string  | `ena_input.csv` | File name used to record document–topic assignments as input to the ENA script |
 |         | `--prob_th`           | float   | `0.01` | Probability threshold for multi-topic assignment |

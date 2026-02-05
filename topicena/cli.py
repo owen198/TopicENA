@@ -140,7 +140,7 @@ def main():
 
     if topic_df.columns.duplicated().any():
         dup = topic_df.columns[topic_df.columns.duplicated()].tolist()
-        print(f"[TopicENA] Duplicate keyword columns detected: {dup}\n"
+        print(f"[TopicENA] Abort: Duplicate keyword columns detected: {dup}\n"
                 "This usually indicates that the topic configuration is too fine-grained.\n")
         sys.exit(1)
 
